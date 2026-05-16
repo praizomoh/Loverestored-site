@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Making a Failing Relationship Work — The Complete Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --rose:       #C0392B;
+    --rose-deep:  #8B0000;
+    --rose-light: #FADBD8;
+    --rose-mid:   #E74C3C;
+    --gold:       #D4A017;
+    --gold-light: #F9E4A0;
+    --cream:      #FDF6EE;
+    --dark:       #1A0A0A;
+    --grey:       #6B4F4F;
+    --white:      #FFFFFF;
+  }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+font-family: ‘Lato’, sans-serif;
+background: var(–cream);
+color: var(–dark);
+overflow-x: hidden;
+}
+
+/* ── HERO ─────────────────────────────────────────── */
+.hero {
+min-height: 100vh;
+background: linear-gradient(135deg, var(–rose-deep) 0%, #5C0A0A 40%, #2C0000 100%);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+padding: 60px 24px 80px;
+position: relative;
+overflow: hidden;
+}
+
+.hero::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background:
+radial-gradient(ellipse 70% 60% at 50% 40%, rgba(192,57,43,0.35) 0%, transparent 70%),
+radial-gradient(ellipse 40% 40% at 80% 80%, rgba(212,160,23,0.12) 0%, transparent 60%);
+pointer-events: none;
+}
+
+.hero-hearts {
+position: absolute;
+inset: 0;
+pointer-events: none;
+overflow: hidden;
+}
+.hero-hearts span {
+position: absolute;
+font-size: 1.2rem;
+opacity: 0.07;
+animation: floatUp linear infinite;
+color: var(–rose-light);
+}
+@keyframes floatUp {
+0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+10%  { opacity: 0.07; }
+90%  { opacity: 0.07; }
+100% { transform: translateY(-10vh) rotate(20deg); opacity: 0; }
+}
+
+.hero-badge {
+display: inline-block;
+background: rgba(212,160,23,0.2);
+border: 1px solid var(–gold);
+color: var(–gold-light);
+font-family: ‘Lato’, sans-serif;
+font-size: 0.72rem;
+letter-spacing: 0.22em;
+text-transform: uppercase;
+padding: 7px 20px;
+border-radius: 50px;
+margin-bottom: 28px;
+animation: fadeDown 0.8s ease both;
+}
+
+.hero h1 {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(2.6rem, 7vw, 5.2rem);
+font-weight: 900;
+color: var(–white);
+line-height: 1.1;
+max-width: 820px;
+animation: fadeDown 0.9s ease 0.1s both;
+}
+.hero h1 em {
+color: var(–gold);
+font-style: italic;
+}
+
+.hero-sub {
+font-family: ‘Lato’, sans-serif;
+font-size: clamp(1rem, 2.2vw, 1.22rem);
+color: rgba(253,214,210,0.88);
+max-width: 600px;
+margin: 22px auto 0;
+line-height: 1.7;
+font-weight: 300;
+animation: fadeDown 0.9s ease 0.2s both;
+}
+
+.hero-book {
+margin: 44px auto 0;
+width: 160px;
+animation: fadeDown 1s ease 0.3s both, floatBook 4s ease-in-out 1.3s infinite;
+}
+@keyframes floatBook {
+0%,100% { transform: translateY(0px) rotate(-2deg); }
+50%      { transform: translateY(-12px) rotate(2deg); }
+}
+
+.book-cover {
+width: 160px;
+height: 210px;
+background: linear-gradient(145deg, #A93226, #7B241C);
+border-radius: 4px 12px 12px 4px;
+box-shadow:
+-6px 0 0 #5C1010,
+0 20px 60px rgba(0,0,0,0.6),
+inset 0 0 40px rgba(0,0,0,0.2);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+position: relative;
+overflow: hidden;
+}
+.book-cover::before {
+content: ‘’;
+position: absolute;
+left: 14px; top: 0; bottom: 0; width: 2px;
+background: rgba(0,0,0,0.25);
+}
+.book-cover .heart-big {
+font-size: 3.5rem;
+color: rgba(255,255,255,0.15);
+position: absolute;
+}
+.book-cover .book-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 0.75rem;
+color: rgba(255,255,255,0.92);
+text-align: center;
+padding: 0 18px;
+font-weight: 700;
+line-height: 1.4;
+position: relative;
+z-index: 2;
+}
+.book-cover .book-heart {
+font-size: 1.8rem;
+margin-bottom: 8px;
+position: relative;
+z-index: 2;
+}
+.book-cover .gold-line {
+width: 50px;
+height: 1px;
+background: var(–gold);
+margin: 10px auto 8px;
+position: relative;
+z-index: 2;
+}
+
+.cta-wrap {
+margin-top: 44px;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 14px;
+animation: fadeDown 1s ease 0.4s both;
+}
+
+.btn-primary {
+display: inline-flex;
+align-items: center;
+gap: 10px;
+background: linear-gradient(135deg, var(–gold) 0%, #B8860B 100%);
+color: #1A0000;
+font-family: ‘Lato’, sans-serif;
+font-weight: 700;
+font-size: 1.05rem;
+letter-spacing: 0.04em;
+padding: 18px 44px;
+border-radius: 50px;
+border: none;
+cursor: pointer;
+text-decoration: none;
+box-shadow: 0 8px 30px rgba(212,160,23,0.4), 0 2px 6px rgba(0,0,0,0.2);
+transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+}
+.btn-primary:hover {
+transform: translateY(-3px) scale(1.03);
+box-shadow: 0 14px 40px rgba(212,160,23,0.55);
+filter: brightness(1.08);
+}
+
+.btn-secondary {
+color: rgba(253,214,210,0.75);
+font-size: 0.9rem;
+text-decoration: underline;
+cursor: pointer;
+background: none;
+border: none;
+}
+
+.hero-price {
+display: flex;
+align-items: center;
+gap: 14px;
+margin-top: 6px;
+}
+.price-old {
+color: rgba(255,255,255,0.4);
+font-size: 1.1rem;
+text-decoration: line-through;
+}
+.price-new {
+color: var(–gold);
+font-family: ‘Playfair Display’, serif;
+font-size: 2rem;
+font-weight: 900;
+}
+.price-tag {
+background: var(–rose-mid);
+color: #fff;
+font-size: 0.72rem;
+font-weight: 700;
+letter-spacing: 0.1em;
+padding: 4px 10px;
+border-radius: 4px;
+}
+
+@keyframes fadeDown {
+from { opacity: 0; transform: translateY(-24px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SOCIAL PROOF BAR ─────────────────────────────── */
+.proof-bar {
+background: var(–white);
+padding: 18px 24px;
+display: flex;
+justify-content: center;
+gap: 40px;
+flex-wrap: wrap;
+border-bottom: 1px solid #EDD;
+box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.proof-item {
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 0.88rem;
+color: var(–grey);
+font-weight: 600;
+}
+.proof-item span.icon { font-size: 1.1rem; }
+
+/* ── SECTION SHARED ───────────────────────────────── */
+section { padding: 90px 24px; }
+.container { max-width: 1060px; margin: 0 auto; }
+
+.section-label {
+font-size: 0.72rem;
+letter-spacing: 0.22em;
+text-transform: uppercase;
+color: var(–rose);
+font-weight: 700;
+margin-bottom: 12px;
+display: block;
+}
+.section-title {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(2rem, 4.5vw, 3rem);
+font-weight: 900;
+color: var(–dark);
+line-height: 1.15;
+margin-bottom: 18px;
+}
+.section-sub {
+font-size: 1.05rem;
+color: var(–grey);
+line-height: 1.75;
+max-width: 620px;
+}
+
+/* ── PAIN / EMPATHY ───────────────────────────────── */
+.pain {
+background: linear-gradient(180deg, #FDF6EE 0%, #FFF0EE 100%);
+}
+.pain-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+gap: 24px;
+margin-top: 48px;
+}
+.pain-card {
+background: white;
+border-left: 4px solid var(–rose-light);
+border-radius: 0 12px 12px 0;
+padding: 24px 26px;
+box-shadow: 0 4px 20px rgba(192,57,43,0.07);
+transition: border-color 0.3s, transform 0.3s;
+}
+.pain-card:hover {
+border-color: var(–rose);
+transform: translateX(4px);
+}
+.pain-card .emoji { font-size: 1.8rem; margin-bottom: 10px; display: block; }
+.pain-card h3 {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.05rem;
+font-weight: 700;
+color: var(–dark);
+margin-bottom: 6px;
+}
+.pain-card p { font-size: 0.9rem; color: var(–grey); line-height: 1.65; }
+
+/* ── WHAT YOU GET ─────────────────────────────────── */
+.whatyouget { background: var(–dark); }
+.whatyouget .section-title { color: var(–white); }
+.whatyouget .section-label { color: var(–gold); }
+.whatyouget .section-sub   { color: rgba(255,255,255,0.55); }
+
+.chapters-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 20px;
+margin-top: 48px;
+}
+.chapter-card {
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(255,255,255,0.08);
+border-radius: 14px;
+padding: 26px 24px;
+transition: background 0.3s, border-color 0.3s, transform 0.3s;
+cursor: default;
+}
+.chapter-card:hover {
+background: rgba(192,57,43,0.15);
+border-color: rgba(192,57,43,0.4);
+transform: translateY(-4px);
+}
+.chapter-num {
+font-size: 0.7rem;
+letter-spacing: 0.18em;
+color: var(–rose-mid);
+font-weight: 700;
+margin-bottom: 6px;
+text-transform: uppercase;
+}
+.chapter-card h3 {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.08rem;
+color: var(–white);
+margin-bottom: 8px;
+font-weight: 700;
+}
+.chapter-card p { font-size: 0.87rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+/* ── TESTIMONIALS ─────────────────────────────────── */
+.testimonials { background: var(–cream); }
+.testi-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 28px;
+margin-top: 52px;
+}
+.testi-card {
+background: white;
+border-radius: 16px;
+padding: 32px 28px;
+box-shadow: 0 8px 40px rgba(0,0,0,0.07);
+position: relative;
+}
+.testi-card::before {
+content: ‘”’;
+font-family: ‘Playfair Display’, serif;
+font-size: 5rem;
+color: var(–rose-light);
+position: absolute;
+top: 10px;
+left: 22px;
+line-height: 1;
+}
+.testi-stars { color: var(–gold); font-size: 1rem; margin-bottom: 14px; }
+.testi-text {
+font-size: 0.95rem;
+color: #444;
+line-height: 1.75;
+margin-bottom: 20px;
+font-style: italic;
+}
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar {
+width: 42px; height: 42px;
+border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+font-size: 1.3rem;
+background: var(–rose-light);
+flex-shrink: 0;
+}
+.testi-name { font-weight: 700; font-size: 0.9rem; color: var(–dark); }
+.testi-role { font-size: 0.78rem; color: var(–grey); }
+
+/* ── PRICING ──────────────────────────────────────── */
+.pricing {
+background: linear-gradient(180deg, #FFF0EE 0%, #FDF6EE 100%);
+text-align: center;
+}
+.pricing-card {
+max-width: 500px;
+margin: 52px auto 0;
+background: white;
+border-radius: 24px;
+padding: 48px 44px;
+box-shadow: 0 20px 80px rgba(192,57,43,0.15), 0 4px 20px rgba(0,0,0,0.06);
+border: 2px solid var(–rose-light);
+position: relative;
+overflow: hidden;
+}
+.pricing-card::before {
+content: ‘BEST VALUE’;
+position: absolute;
+top: 20px; right: -28px;
+background: var(–rose);
+color: white;
+font-size: 0.65rem;
+font-weight: 700;
+letter-spacing: 0.15em;
+padding: 5px 40px;
+transform: rotate(45deg);
+}
+.pricing-label {
+font-size: 0.72rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–grey);
+margin-bottom: 8px;
+}
+.pricing-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.5rem;
+font-weight: 900;
+color: var(–dark);
+margin-bottom: 6px;
+}
+.pricing-amount {
+margin: 24px 0 6px;
+display: flex;
+align-items: flex-start;
+justify-content: center;
+gap: 4px;
+}
+.pricing-currency {
+font-size: 1.4rem;
+font-weight: 700;
+color: var(–rose);
+margin-top: 8px;
+}
+.pricing-number {
+font-family: ‘Playfair Display’, serif;
+font-size: 4.5rem;
+font-weight: 900;
+color: var(–rose-deep);
+line-height: 1;
+}
+.pricing-period { font-size: 0.9rem; color: var(–grey); margin-bottom: 6px; }
+.pricing-original {
+font-size: 1rem;
+color: #aaa;
+text-decoration: line-through;
+margin-bottom: 24px;
+}
+.pricing-features {
+list-style: none;
+margin: 24px 0 32px;
+text-align: left;
+}
+.pricing-features li {
+display: flex;
+gap: 10px;
+font-size: 0.93rem;
+color: #444;
+padding: 7px 0;
+border-bottom: 1px solid #F8F0F0;
+align-items: flex-start;
+}
+.pricing-features li .check {
+color: var(–rose);
+font-weight: 700;
+flex-shrink: 0;
+margin-top: 1px;
+}
+.guarantee {
+margin-top: 20px;
+font-size: 0.82rem;
+color: var(–grey);
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 6px;
+}
+
+/* ── MONETIZE GUIDE ───────────────────────────────── */
+.monetize {
+background: white;
+}
+.steps-wrap { margin-top: 56px; display: flex; flex-direction: column; gap: 0; }
+.step {
+display: flex;
+gap: 28px;
+position: relative;
+padding-bottom: 44px;
+}
+.step:last-child { padding-bottom: 0; }
+.step-line {
+position: absolute;
+left: 22px;
+top: 50px;
+bottom: 0;
+width: 2px;
+background: linear-gradient(180deg, var(–rose-light), transparent);
+}
+.step:last-child .step-line { display: none; }
+.step-num {
+width: 46px;
+height: 46px;
+border-radius: 50%;
+background: linear-gradient(135deg, var(–rose), var(–rose-deep));
+color: white;
+font-family: ‘Playfair Display’, serif;
+font-size: 1.2rem;
+font-weight: 900;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+box-shadow: 0 4px 16px rgba(192,57,43,0.35);
+position: relative;
+z-index: 2;
+}
+.step-content { padding-top: 8px; }
+.step-content h3 {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.25rem;
+font-weight: 700;
+color: var(–dark);
+margin-bottom: 8px;
+}
+.step-content p { font-size: 0.95rem; color: var(–grey); line-height: 1.75; margin-bottom: 10px; }
+.step-platforms {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+margin-top: 10px;
+}
+.platform-chip {
+background: var(–rose-light);
+color: var(–rose-deep);
+font-size: 0.78rem;
+font-weight: 700;
+padding: 5px 14px;
+border-radius: 50px;
+}
+.earnings-badge {
+display: inline-flex;
+align-items: center;
+gap: 6px;
+background: linear-gradient(135deg, #FEF9E7, #FDF0C0);
+border: 1px solid var(–gold);
+color: #5D4000;
+font-size: 0.82rem;
+font-weight: 700;
+padding: 5px 14px;
+border-radius: 50px;
+margin-top: 8px;
+}
+
+/* ── INCOME PROJECTIONS ───────────────────────────── */
+.projections { background: var(–dark); }
+.projections .section-title { color: white; }
+.projections .section-label { color: var(–gold); }
+.projections .section-sub   { color: rgba(255,255,255,0.55); }
+
+.proj-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 20px;
+margin-top: 52px;
+}
+.proj-card {
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(255,255,255,0.08);
+border-radius: 16px;
+padding: 30px 24px;
+text-align: center;
+transition: background 0.3s;
+}
+.proj-card:hover { background: rgba(212,160,23,0.1); border-color: rgba(212,160,23,0.3); }
+.proj-period {
+font-size: 0.72rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: rgba(255,255,255,0.4);
+margin-bottom: 14px;
+}
+.proj-sales {
+font-family: ‘Playfair Display’, serif;
+font-size: 2.8rem;
+font-weight: 900;
+color: var(–gold);
+line-height: 1;
+margin-bottom: 6px;
+}
+.proj-label { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 18px; }
+.proj-divider { width: 30px; height: 1px; background: rgba(255,255,255,0.1); margin: 0 auto 18px; }
+.proj-income {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.7rem;
+font-weight: 700;
+color: white;
+}
+.proj-income-label { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-top: 4px; }
+.proj-note {
+text-align: center;
+color: rgba(255,255,255,0.3);
+font-size: 0.8rem;
+margin-top: 30px;
+font-style: italic;
+}
+
+/* ── FAQ ──────────────────────────────────────────── */
+.faq { background: var(–cream); }
+.faq-list { max-width: 720px; margin: 52px auto 0; display: flex; flex-direction: column; gap: 16px; }
+.faq-item {
+background: white;
+border-radius: 12px;
+overflow: hidden;
+box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.faq-q {
+width: 100%;
+background: none;
+border: none;
+padding: 20px 24px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+cursor: pointer;
+font-family: ‘Lato’, sans-serif;
+font-size: 0.98rem;
+font-weight: 700;
+color: var(–dark);
+text-align: left;
+gap: 12px;
+}
+.faq-q .arrow {
+font-size: 0.8rem;
+color: var(–rose);
+transition: transform 0.3s;
+flex-shrink: 0;
+}
+.faq-a {
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.4s ease, padding 0.3s;
+font-size: 0.93rem;
+color: var(–grey);
+line-height: 1.75;
+padding: 0 24px;
+}
+.faq-item.open .faq-a { max-height: 400px; padding: 0 24px 20px; }
+.faq-item.open .arrow { transform: rotate(180deg); }
+
+/* ── FINAL CTA ────────────────────────────────────── */
+.final-cta {
+background: linear-gradient(135deg, var(–rose-deep) 0%, #5C0A0A 100%);
+text-align: center;
+padding: 100px 24px;
+position: relative;
+overflow: hidden;
+}
+.final-cta::before {
+content: ‘♥’;
+position: absolute;
+font-size: 24rem;
+color: rgba(255,255,255,0.03);
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+pointer-events: none;
+}
+.final-cta h2 {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(2rem, 5vw, 3.4rem);
+font-weight: 900;
+color: white;
+line-height: 1.2;
+margin-bottom: 18px;
+position: relative;
+}
+.final-cta p {
+color: rgba(253,214,210,0.8);
+font-size: 1.05rem;
+max-width: 500px;
+margin: 0 auto 40px;
+line-height: 1.7;
+position: relative;
+}
+
+/* ── FOOTER ───────────────────────────────────────── */
+footer {
+background: #0D0303;
+color: rgba(255,255,255,0.3);
+text-align: center;
+padding: 32px 24px;
+font-size: 0.82rem;
+line-height: 1.8;
+}
+footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
+
+/* ── NAV ──────────────────────────────────────────── */
+nav {
+position: fixed;
+top: 0; left: 0; right: 0;
+z-index: 100;
+padding: 16px 32px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+background: rgba(10,0,0,0.6);
+backdrop-filter: blur(12px);
+border-bottom: 1px solid rgba(255,255,255,0.05);
+transition: background 0.3s;
+}
+.nav-logo {
+font-family: ‘Dancing Script’, cursive;
+font-size: 1.4rem;
+color: white;
+text-decoration: none;
+font-weight: 600;
+}
+.nav-logo span { color: var(–gold); }
+.nav-cta {
+background: var(–gold);
+color: #1A0000;
+font-size: 0.82rem;
+font-weight: 700;
+padding: 9px 22px;
+border-radius: 50px;
+text-decoration: none;
+transition: filter 0.2s, transform 0.2s;
+}
+.nav-cta:hover { filter: brightness(1.1); transform: scale(1.04); }
+
+/* ── ANIMATIONS ───────────────────────────────────── */
+.reveal {
+opacity: 0;
+transform: translateY(30px);
+transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ───────────────────────────────────── */
+@media (max-width: 600px) {
+.proof-bar { gap: 18px; }
+.step { flex-direction: column; gap: 12px; }
+.step-line { display: none; }
+nav { padding: 14px 18px; }
+.pricing-card { padding: 36px 24px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav>
+  <a class="nav-logo" href="#"><span>♥</span> LoveRestored</a>
+  <a class="nav-cta" href="#pricing">Get the Guide — $17</a>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="hero-hearts" id="heartsContainer"></div>
+
+<span class="hero-badge">★ Over 2,000 couples helped worldwide</span>
+
+  <h1>Save Your Relationship<br/>Before It's <em>Too Late</em></h1>
+
+  <p class="hero-sub">
+    The most comprehensive, compassionate, and practical guide to healing a failing relationship —
+    written for real couples in real pain.
+  </p>
+
+  <div class="hero-book">
+    <div class="book-cover">
+      <span class="heart-big">♥</span>
+      <div class="book-heart">💕</div>
+      <div class="gold-line"></div>
+      <div class="book-title">Making a Failing Relationship Work</div>
+    </div>
+  </div>
+
+  <div class="cta-wrap">
+    <div class="hero-price">
+      <span class="price-old">$37</span>
+      <span class="price-new">$17</span>
+      <span class="price-tag">54% OFF</span>
+    </div>
+    <a class="btn-primary" href="#pricing">
+      💛 Get Instant Access Now
+    </a>
+    <button class="btn-secondary" onclick="document.getElementById('whatyouget').scrollIntoView({behavior:'smooth'})">
+      See what's inside ↓
+    </button>
+  </div>
+</section>
+
+<!-- PROOF BAR -->
+
+<div class="proof-bar">
+  <div class="proof-item"><span class="icon">📥</span> Instant PDF Download</div>
+  <div class="proof-item"><span class="icon">🔒</span> Secure Checkout</div>
+  <div class="proof-item"><span class="icon">💯</span> 30-Day Money-Back Guarantee</div>
+  <div class="proof-item"><span class="icon">⭐</span> 4.9/5 Average Rating</div>
+  <div class="proof-item"><span class="icon">♥</span> 2,000+ Couples Helped</div>
+</div>
+
+<!-- PAIN SECTION -->
+
+<section class="pain">
+  <div class="container">
+    <span class="section-label reveal">You are not alone</span>
+    <h2 class="section-title reveal">Does This Sound Like You?</h2>
+    <p class="section-sub reveal">
+      Millions of couples face these exact struggles every day. Recognising them is the first step toward healing.
+    </p>
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <span class="emoji">💔</span>
+        <h3>You Fight About Everything</h3>
+        <p>The same arguments on repeat, with nothing ever truly resolved. Tension is the new normal.</p>
+      </div>
+      <div class="pain-card reveal">
+        <span class="emoji">🚪</span>
+        <h3>You Feel Like Strangers</h3>
+        <p>You sleep in the same bed but feel miles apart. The emotional distance grows every day.</p>
+      </div>
+      <div class="pain-card reveal">
+        <span class="emoji">😶</span>
+        <h3>Communication Has Broken Down</h3>
+        <p>You've stopped talking, or every conversation turns into a fight. You don't know how to reach them anymore.</p>
+      </div>
+      <div class="pain-card reveal">
+        <span class="emoji">💭</span>
+        <h3>You're Thinking About Leaving</h3>
+        <p>The thought crosses your mind — but deep down you don't want to give up. You just need a way forward.</p>
+      </div>
+      <div class="pain-card reveal">
+        <span class="emoji">🩹</span>
+        <h3>Trust Has Been Broken</h3>
+        <p>Something happened — infidelity, lies, betrayal — and you don't know if it can ever be the same again.</p>
+      </div>
+      <div class="pain-card reveal">
+        <span class="emoji">🥀</span>
+        <h3>The Love Feels Gone</h3>
+        <p>You remember how good it was. Now everything feels flat, cold, or painful. You miss what you had.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+
+<section class="whatyouget" id="whatyouget">
+  <div class="container">
+    <span class="section-label reveal">Inside the guide</span>
+    <h2 class="section-title reveal">Everything You Need to Know,<br/>All in One Place</h2>
+    <p class="section-sub reveal">
+      9 comprehensive chapters covering every dimension of relationship repair — backed by psychology, delivered with compassion.
+    </p>
+    <div class="chapters-grid">
+      <div class="chapter-card reveal">
+        <div class="chapter-num">Chapter 1</div>
+        <h3>Why Relationships Fail</h3>
+        <p>Identify the real root causes — communication breakdown, loss of trust, neglect, external stressors, and more.</p>
+      </div>
+      <div class="chapter-card reveal">
+        <div class="chapter-num">Chapter 2</div>
+        <h3>The Power of Communication</h3>
+        <p>Practical tools, exercises, and techniques to start truly hearing each other again.</p>
+      </div>
+      <div class="chapter-card reveal">
+        <div class="chapter-num">Chapter 3</div>
+        <h3>Rebuilding Trust</h3>
+        <p>A step-by-step roadmap for healing after betrayal, infidelity, or broken promises.</p>
+      </div>
+      <div class="chapter-card reveal">
+        <div class="chapter-num">Chapter 4</div>
+        <h3>Reigniting Intimacy</h3>
+        <p>How to rekindle emotional and physical closeness when it feels lost forever.</p>
+      </div>
+      <div class="chapter-card reveal">
+        <div class="chapter-num">Chapter 5</div>
+        <h3>Constructive Conflict</h3>
+        <p>Fair fighting rules and techniques so disagreements bring you closer, not further apart.</p>
+      </div>
+      <div class="chapter-card reveal">
+        <div class="chapter-num">Chapter 6</div>
+        <h3>The Role of Forgiveness</h3>
+        <p>What forgiveness really means — and the practical steps to achieve it.</p>
+      </div>
+      <div class="chapter-card reveal">
+        <div class="chapter-num">Chapter 7</div>
+        <h3>Couples Therapy</h3>
+        <p>When to seek help, what to expect, and how to choose the right approach.</p>
+      </div>
+      <div class="chapter-card reveal">
+        <div class="chapter-num">Chapter 8</div>
+        <h3>Self-Love & Growth</h3>
+        <p>How personal healing and self-awareness transforms your relationship from the inside out.</p>
+      </div>
+      <div class="chapter-card reveal">
+        <div class="chapter-num">Chapter 9</div>
+        <h3>Daily Relationship Habits</h3>
+        <p>Small daily actions that compound into a deeply fulfilling, lasting partnership.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+
+<section class="testimonials">
+  <div class="container">
+    <span class="section-label reveal" style="text-align:center;display:block;">Real stories</span>
+    <h2 class="section-title reveal" style="text-align:center;">What Readers Are Saying</h2>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">This guide literally saved my marriage. We were three weeks from filing for divorce. I read it in one night, shared it with my husband, and we started couples therapy the next week. Six months later — we're genuinely happy again.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">👩</div>
+          <div>
+            <div class="testi-name">Sarah M.</div>
+            <div class="testi-role">Married 8 years, USA</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">I was the one who broke trust. This guide gave me a roadmap — not just for earning forgiveness, but for becoming the partner I should have always been. My girlfriend says it's the most meaningful thing I've ever done.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">👨</div>
+          <div>
+            <div class="testi-name">James T.</div>
+            <div class="testi-role">Together 4 years, UK</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">The chapter on communication alone was worth 10× the price. I never knew how to express myself without it turning into a fight. The 'I statement' technique changed everything for us within days.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">👩‍🦱</div>
+          <div>
+            <div class="testi-name">Amara K.</div>
+            <div class="testi-role">Together 2 years, Nigeria</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+
+<section class="pricing" id="pricing">
+  <div class="container">
+    <span class="section-label reveal" style="display:block;">Start healing today</span>
+    <h2 class="section-title reveal">Get the Complete Guide</h2>
+    <p class="section-sub reveal" style="margin:0 auto;">One-time payment. Instant access. No subscription.</p>
+
+```
+<div class="pricing-card reveal">
+  <div class="pricing-label">Complete Digital Guide</div>
+  <div class="pricing-title">Making a Failing Relationship Work</div>
+  <div class="pricing-amount">
+    <span class="pricing-currency">$</span>
+    <span class="pricing-number">17</span>
+  </div>
+  <div class="pricing-original">Regular price: $37</div>
+  <ul class="pricing-features">
+    <li><span class="check">✓</span> Full 9-Chapter PDF Guide (50+ pages)</li>
+    <li><span class="check">✓</span> Communication & Conflict Resolution Toolkit</li>
+    <li><span class="check">✓</span> Trust Rebuilding Roadmap</li>
+    <li><span class="check">✓</span> Relationship Health Daily Checklist</li>
+    <li><span class="check">✓</span> Forgiveness & Attachment Style Deep-Dive</li>
+    <li><span class="check">✓</span> Therapy Resources & Recommended Reading</li>
+    <li><span class="check">✓</span> Instant Download — No waiting</li>
+    <li><span class="check">✓</span> Lifetime Access — Yours to keep forever</li>
+  </ul>
+  <a class="btn-primary" href="#" style="width:100%;justify-content:center;font-size:1.1rem;padding:20px;">
+    💛 Yes! I Want to Save My Relationship
+  </a>
+  <div class="guarantee">🔒 30-Day Money-Back Guarantee. No questions asked.</div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- HOW TO MONETIZE — STEP BY STEP -->
+
+<section class="monetize" id="monetize">
+  <div class="container">
+    <span class="section-label reveal">For the product creator</span>
+    <h2 class="section-title reveal">Your Step-by-Step Guide to<br/>Earning From This Product</h2>
+    <p class="section-sub reveal">
+      Here is exactly how to turn this PDF guide into a real income stream — starting today, even with zero experience.
+    </p>
+
+```
+<div class="steps-wrap">
+
+  <div class="step reveal">
+    <div class="step-num">1</div>
+    <div class="step-line"></div>
+    <div class="step-content">
+      <h3>Set Up Your Digital Storefront</h3>
+      <p>You need a platform where customers can pay and automatically receive the PDF. These platforms handle payments, delivery, and tax for you — no tech skills required.</p>
+      <div class="step-platforms">
+        <span class="platform-chip">Gumroad</span>
+        <span class="platform-chip">Payhip</span>
+        <span class="platform-chip">Lemon Squeezy</span>
+        <span class="platform-chip">Etsy (Digital)</span>
+        <span class="platform-chip">Sellfy</span>
+      </div>
+      <div class="earnings-badge">⚡ Recommended: Gumroad — free to start, takes 10% per sale. Payhip is free with 5%.</div>
+    </div>
+  </div>
+
+  <div class="step reveal">
+    <div class="step-num">2</div>
+    <div class="step-line"></div>
+    <div class="step-content">
+      <h3>Price It Strategically</h3>
+      <p>Digital relationship guides sell best between <strong>$9 – $27</strong>. Start at <strong>$17</strong> with a "launch discount" from $37 to create urgency. This is the sweet spot: affordable enough to impulse-buy, high enough to feel premium.</p>
+      <p>Once you have reviews and social proof, you can raise the price to $27–$37 without changing a thing.</p>
+      <div class="earnings-badge">💰 At $17/sale × 100 sales = $1,700 revenue</div>
+    </div>
+  </div>
+
+  <div class="step reveal">
+    <div class="step-num">3</div>
+    <div class="step-line"></div>
+    <div class="step-content">
+      <h3>Create a Sales Page (This Page!)</h3>
+      <p>You already have it — this landing page. Host it free on <strong>Carrd.co</strong>, <strong>Notion</strong>, or directly through your storefront. A compelling sales page converts visitors into buyers.</p>
+      <p>Key elements: emotional headline, pain points, what's inside, testimonials, price, and a strong call-to-action button.</p>
+      <div class="step-platforms">
+        <span class="platform-chip">Carrd.co (free)</span>
+        <span class="platform-chip">Framer</span>
+        <span class="platform-chip">WordPress</span>
+        <span class="platform-chip">Webflow</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step reveal">
+    <div class="step-num">4</div>
+    <div class="step-line"></div>
+    <div class="step-content">
+      <h3>Drive Traffic With Free Content</h3>
+      <p>The fastest way to get buyers without spending money on ads is to create free helpful content that leads back to your product. Focus on <strong>one platform</strong> at first — don't spread yourself thin.</p>
+      <div class="step-platforms">
+        <span class="platform-chip">TikTok</span>
+        <span class="platform-chip">Instagram Reels</span>
+        <span class="platform-chip">Pinterest</span>
+        <span class="platform-chip">YouTube Shorts</span>
+        <span class="platform-chip">Facebook Groups</span>
+        <span class="platform-chip">Reddit</span>
+      </div>
+      <p style="margin-top:12px;"><strong>Content ideas:</strong> "5 signs your relationship is worth saving," "The #1 communication mistake couples make," "How we rebuilt trust after cheating." Each post ends with "Full guide in my bio."</p>
+      <div class="earnings-badge">📈 Even 1,000 views/month can generate 5–20 sales consistently</div>
+    </div>
+  </div>
+
+  <div class="step reveal">
+    <div class="step-num">5</div>
+    <div class="step-line"></div>
+    <div class="step-content">
+      <h3>Launch an Affiliate Program</h3>
+      <p>Let other people sell for you. Gumroad and Payhip have built-in affiliate tools. Offer <strong>40–50% commission</strong> — this motivates bloggers, YouTubers, and relationship coaches to promote your product to their audiences.</p>
+      <p>Reach out to relationship coaches, marriage counsellors, and content creators with small but engaged audiences. Even one affiliate with 5,000 followers can generate dozens of sales.</p>
+      <div class="earnings-badge">🤝 Affiliate sales = passive income with zero extra work from you</div>
+    </div>
+  </div>
+
+  <div class="step reveal">
+    <div class="step-num">6</div>
+    <div class="step-line"></div>
+    <div class="step-content">
+      <h3>Build an Email List</h3>
+      <p>Offer a free mini-guide or checklist ("7 Signs Your Relationship Can Be Saved") in exchange for an email address. Build your list using <strong>Mailchimp</strong> or <strong>ConvertKit</strong> (both free to start). Email your list weekly with relationship tips, and promote your guide in every email.</p>
+      <p>Email subscribers convert at <strong>3–5×</strong> the rate of social media followers because they actually asked to hear from you.</p>
+      <div class="step-platforms">
+        <span class="platform-chip">Mailchimp (free)</span>
+        <span class="platform-chip">ConvertKit</span>
+        <span class="platform-chip">Beehiiv</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step reveal">
+    <div class="step-num">7</div>
+    <div class="step-line"></div>
+    <div class="step-content">
+      <h3>Run Paid Ads (When You're Ready)</h3>
+      <p>Once you've made your first 20–30 sales organically and have testimonials, consider running <strong>Facebook/Instagram ads</strong>. Start with just $5–$10/day targeting: married people, relationship interests, ages 25–45. A good ad-to-sales page to product funnel can return $2–$5 for every $1 spent.</p>
+      <div class="earnings-badge">📊 Even a 2× ROAS on $300/month spend = $600 revenue</div>
+    </div>
+  </div>
+
+  <div class="step reveal">
+    <div class="step-num">8</div>
+    <div class="step-line"></div>
+    <div class="step-content">
+      <h3>Expand Your Product Line</h3>
+      <p>Once your guide is selling, expand with related products to increase revenue per customer. Bundle deals and upsells dramatically increase your average order value.</p>
+      <div class="step-platforms">
+        <span class="platform-chip">Workbook / Journal ($12)</span>
+        <span class="platform-chip">Audio Version ($15)</span>
+        <span class="platform-chip">30-Day Challenge ($9)</span>
+        <span class="platform-chip">Online Course ($97)</span>
+        <span class="platform-chip">Coaching Call ($150)</span>
+      </div>
+      <div class="earnings-badge">💡 A $17 buyer who upsells to a $97 course = 6× revenue per customer</div>
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+</section>
+
+<!-- INCOME PROJECTIONS -->
+
+<section class="projections">
+  <div class="container">
+    <span class="section-label reveal" style="display:block;text-align:center;">Your earning potential</span>
+    <h2 class="section-title reveal" style="text-align:center;">Realistic Income Projections</h2>
+    <p class="section-sub reveal" style="text-align:center;margin:0 auto;">Based on selling at $17/copy with consistent promotion</p>
+    <div class="proj-grid">
+      <div class="proj-card reveal">
+        <div class="proj-period">Month 1</div>
+        <div class="proj-sales">10–20</div>
+        <div class="proj-label">sales (getting started)</div>
+        <div class="proj-divider"></div>
+        <div class="proj-income">$170–$340</div>
+        <div class="proj-income-label">estimated revenue</div>
+      </div>
+      <div class="proj-card reveal">
+        <div class="proj-period">Month 3</div>
+        <div class="proj-sales">50–100</div>
+        <div class="proj-label">sales (growing audience)</div>
+        <div class="proj-divider"></div>
+        <div class="proj-income">$850–$1,700</div>
+        <div class="proj-income-label">estimated revenue</div>
+      </div>
+      <div class="proj-card reveal">
+        <div class="proj-period">Month 6</div>
+        <div class="proj-sales">150–300</div>
+        <div class="proj-label">sales (with affiliates + content)</div>
+        <div class="proj-divider"></div>
+        <div class="proj-income">$2,550–$5,100</div>
+        <div class="proj-income-label">estimated revenue</div>
+      </div>
+      <div class="proj-card reveal">
+        <div class="proj-period">Month 12</div>
+        <div class="proj-sales">500+</div>
+        <div class="proj-label">sales (with ads + upsells)</div>
+        <div class="proj-divider"></div>
+        <div class="proj-income">$8,500+</div>
+        <div class="proj-income-label">estimated revenue</div>
+      </div>
+    </div>
+    <p class="proj-note">* Projections are illustrative. Results depend on effort, consistency, and marketing execution.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+
+<section class="faq">
+  <div class="container">
+    <span class="section-label reveal" style="display:block;text-align:center;">Common questions</span>
+    <h2 class="section-title reveal" style="text-align:center;">Frequently Asked Questions</h2>
+    <div class="faq-list">
+
+```
+  <div class="faq-item reveal">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      What exactly do I get when I purchase?
+      <span class="arrow">▼</span>
+    </button>
+    <div class="faq-a">You get an instant PDF download of the complete guide — 9 chapters, 50+ pages. You can read it on any device: phone, tablet, laptop, or print it out. You also get lifetime access and any future updates to the guide for free.</div>
+  </div>
+
+  <div class="faq-item reveal">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      Is this guide suitable for all types of relationships?
+      <span class="arrow">▼</span>
+    </button>
+    <div class="faq-a">Yes. The principles in this guide apply to married couples, engaged couples, long-term partners, long-distance relationships, and same-sex couples. The core human needs of trust, communication, and intimacy are universal.</div>
+  </div>
+
+  <div class="faq-item reveal">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      What if my partner refuses to read it?
+      <span class="arrow">▼</span>
+    </button>
+    <div class="faq-a">This guide is written so that even one partner applying its principles can create meaningful change. Many readers have found that after they started implementing the communication and empathy tools, their partner naturally became more open and willing to engage. You start — let the results do the convincing.</div>
+  </div>
+
+  <div class="faq-item reveal">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      Is there a money-back guarantee?
+      <span class="arrow">▼</span>
+    </button>
+    <div class="faq-a">Absolutely. We offer a full 30-day money-back guarantee. If you feel the guide has not provided value, simply email us and you'll receive a complete refund — no questions asked. We stand behind this product completely.</div>
+  </div>
+
+  <div class="faq-item reveal">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      Is this a replacement for couples therapy?
+      <span class="arrow">▼</span>
+    </button>
+    <div class="faq-a">No — and we say so clearly in the guide. This guide is a powerful tool and a complement to professional support, not a replacement. Chapter 7 specifically covers how to find and work with a couples therapist. For severe issues, professional guidance is strongly recommended.</div>
+  </div>
+
+  <div class="faq-item reveal">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      How do I actually sell this and make money from it?
+      <span class="arrow">▼</span>
+    </button>
+    <div class="faq-a">Scroll up to our Step-by-Step Monetization Guide on this page. In short: upload the PDF to Gumroad or Payhip, share this sales page link everywhere, create free content on social media that links to your store, build an email list, and set up an affiliate program. Full details are in the guide section above.</div>
+  </div>
+
+</div>
+```
+
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+
+<section class="final-cta">
+  <div class="container">
+    <h2>Your Relationship Deserves<br/>One More Chance</h2>
+    <p>Don't let another day pass without taking action. The guide that has helped thousands of couples is waiting for you — right now.</p>
+    <a class="btn-primary" href="#pricing" style="font-size:1.1rem;padding:20px 52px;">
+      💛 Get the Guide for Just $17
+    </a>
+    <p style="margin-top:20px;font-size:0.82rem;color:rgba(255,255,255,0.4);">30-Day Money-Back Guarantee · Instant Download · Secure Payment</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <p>© 2026 LoveRestored · All rights reserved</p>
+  <p style="margin-top:6px;">
+    <a href="#">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="#">Terms of Service</a> &nbsp;·&nbsp;
+    <a href="#">Contact Us</a> &nbsp;·&nbsp;
+    <a href="#">Affiliate Program</a>
+  </p>
+  <p style="margin-top:10px;font-size:0.75rem;opacity:0.5;">
+    This guide is for informational purposes only and is not a substitute for professional mental health or relationship counselling.
+    If you are in an abusive relationship, please seek professional help immediately.
+  </p>
+</footer>
+
+<script>
+  // ── Floating hearts ────────────────────────────
+  const container = document.getElementById('heartsContainer');
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('span');
+    s.textContent = ['♥','♡','💕'][Math.floor(Math.random()*3)];
+    s.style.left = Math.random()*100 + '%';
+    s.style.animationDuration = (8 + Math.random()*12) + 's';
+    s.style.animationDelay = (Math.random()*10) + 's';
+    s.style.fontSize = (0.8 + Math.random()*1.4) + 'rem';
+    container.appendChild(s);
+  }
+
+  // ── Scroll reveal ──────────────────────────────
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // ── FAQ toggle ─────────────────────────────────
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+
+</body>
+</html>
